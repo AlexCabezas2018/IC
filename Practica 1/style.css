@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.section {
+    background-color: cadetblue;
+    color: white;
+    font-size: 0.9em;
+    text-align: center;
+    padding: 1%;
+}
