@@ -78,3 +78,34 @@ span {
     width: 35%;
     margin-bottom: 4%;
 }
+
+.option-button {
+    border: none;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 1em;
+    margin: 0.3em;
+    width: 10em;
+}
+
+#begin-button {
+    background-color: #00ff00;
+}
+
+#end-button {
+    background-color: #0000ff;
+}
+
+#clear-button {
+    background-color: #bdbdbd;
+    color: black;
+}
+
+#obstacle-button {
+    background-color: #ff0000;
+}
+
+#penalty-button {
+    background-color: #ffb700;
+}

@@ -27,9 +27,7 @@ function setup() {
     columnSlider = createSlider(3, 25, DEF_COLS, 1);
 
     rowSlider.parent('options-section')
-    columnSlider.parent('options-section')
-
-    currentElement = PATH; // Para debug, por defecto no hay elemento seleccionado
+    columnSlider.parent('options-section');
 
     updateDocElems();
 }
@@ -46,6 +44,13 @@ function draw() {
     updateDocElems()
 }
 
+function setupCanvas(cols = DEF_COLS, rows = DEF_ROWS) {
+    let canvas = createCanvas(DEF_SIZE * cols, DEF_SIZE * rows);
+    canvas.parent('canvas-board');
+    background(0);
+    board = setupBoard(rows, cols);
+}
+
 function setupBoard(rows = DEF_ROWS, cols = DEF_COLS) {
     let board = new Array(cols);
     for (let i = 0; i < board.length; i++) {
@@ -59,13 +64,6 @@ function setupBoard(rows = DEF_ROWS, cols = DEF_COLS) {
     }
 
     return board;
-}
-
-function setupCanvas(cols = DEF_COLS, rows = DEF_ROWS) {
-    let canvas = createCanvas(DEF_SIZE * cols, DEF_SIZE * rows);
-    canvas.parent('canvas-board');
-    background(0);
-    board = setupBoard(rows, cols);
 }
 
 // Actualiza todo lo que tiene que ver con el contenido de la página (contenido de las spans, h2, etc)
@@ -103,4 +101,23 @@ function changeSize() {
 
 function updateCurrentElement(element) {
     currentElement = element;
+}
+
+function runAStar() {
+    let errors = AStar.validate(board);
+    if(errors.length > 0) {
+        let errorMessage = "";
+        errors.forEach((error, i) => errorMessage += `${ i + 1 }- ${ error }\n`);
+        alert("Se han encontrado los siguientes errores: \n" + errorMessage);
+    }
+    else {
+        console.log("Validaciones hechas. Comenzamos A*Star");
+        let path = AStar.resolve(board, null, null);
+        if(path.length == 0) alert("No se ha llegado a una solución");
+        else {
+            path.forEach(coor => {
+                board[coor.i][coor.j].element = PATH;
+            });
+        }
+    }
 }

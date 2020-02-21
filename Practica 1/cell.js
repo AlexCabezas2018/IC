@@ -4,6 +4,13 @@ class Cell {
         this.y = y;
         this.w = w;
         this.element = NOTHING;
+
+        // Parámetros para el A*
+        this.f = 0;
+        this.g = 0;
+        this.h = 0;
+        this.parent = undefined;
+
     }
 
     draw() {
