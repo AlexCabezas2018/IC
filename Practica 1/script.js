@@ -26,7 +26,7 @@ function setup() {
     rowSlider = createSlider(3, 25, DEF_ROWS, 1);
     columnSlider = createSlider(3, 25, DEF_COLS, 1);
 
-    rowSlider.parent('options-section')
+    rowSlider.parent('options-section');
     columnSlider.parent('options-section');
 
     updateDocElems();
@@ -49,6 +49,8 @@ function setupCanvas(cols = DEF_COLS, rows = DEF_ROWS) {
     canvas.parent('canvas-board');
     background(0);
     board = setupBoard(rows, cols);
+    board[0][0].element = BEGIN;
+    board[9][9].element = END;
 }
 
 function setupBoard(rows = DEF_ROWS, cols = DEF_COLS) {
@@ -105,18 +107,22 @@ function updateCurrentElement(element) {
 
 function runAStar() {
     let errors = AStar.validate(board);
-    if(errors.length > 0) {
+    if (errors.length > 0) {
         let errorMessage = "";
-        errors.forEach((error, i) => errorMessage += `${ i + 1 }- ${ error }\n`);
+        errors.forEach((error, i) => errorMessage += `${i + 1}- ${error}\n`);
         alert("Se han encontrado los siguientes errores: \n" + errorMessage);
     }
     else {
         console.log("Validaciones hechas. Comenzamos A*Star");
-        let path = AStar.resolve(board, null, null);
-        if(path.length == 0) alert("No se ha llegado a una solución");
+        let begin = AStar.findElement(board, BEGIN);
+        let end = AStar.findElement(board, END);
+
+        let path = AStar.resolve(board, begin, end);
+        if (path.length == 0) alert("No se ha llegado a una solución");
         else {
-            path.forEach(coor => {
-                board[coor.i][coor.j].element = PATH;
+            path.forEach((node, index) => {
+                if (index < path.length - 1)
+                    board[node.x][node.y].element = PATH;
             });
         }
     }
