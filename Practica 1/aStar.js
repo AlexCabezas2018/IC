@@ -16,13 +16,24 @@ class AStar {
             for (let i = 0; i < neighbours.length; i++) {
                 let index = closedList.indexOf(neighbours[i]);
                 if (index == -1 && neighbours[i].element != OBSTACLE) {
-                    let gScore = lowestFXNode.g + 1;
+                    let gScore = lowestFXNode.g + (AStar.isDiagonalNode(neighbours[i], lowestFXNode) ? Math.sqrt(2) : 1);
                     let gScoreIsBest = false;
 
                     if (openList.indexOf(neighbours[i]) == -1) {
                         gScoreIsBest = true;
                         neighbours[i].h = AStar.heuristic(neighbours[i], end);
                         openList.push(neighbours[i]);
+                    }
+                    else if(openList.indexOf(neighbours[i]) != -1) {
+                        let gAux = lowestFXNode.g + (AStar.isDiagonalNode(neighbours[i], lowestFXNode) ? Math.sqrt(2) : 1);
+                        let hAux = AStar.heuristic(neighbours[i], end);
+                        let fAux = gAux + hAux;
+                        if(fAux < neighbours[i].f) {
+                            neighbours[i].f = fAux;
+                            neighbours[i].h = hAux;
+                            neighbours[i].g = gAux;
+                            neighbours[i].parent = lowestFXNode;
+                        }
                     }
                     else if (gScore < neighbours[i].g) {
                         gScoreIsBest = true;
@@ -38,6 +49,10 @@ class AStar {
         }
 
         return [];
+    }
+
+    static isDiagonalNode(nodeA, nodeB) {
+        return nodeA.x != nodeB.x && nodeA.y != nodeB.y;
     }
 
     static heuristic(nodeA, nodeB) {

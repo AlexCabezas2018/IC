@@ -49,8 +49,6 @@ function setupCanvas(cols = DEF_COLS, rows = DEF_ROWS) {
     canvas.parent('canvas-board');
     background(0);
     board = setupBoard(rows, cols);
-    board[0][0].element = BEGIN;
-    board[9][9].element = END;
 }
 
 function setupBoard(rows = DEF_ROWS, cols = DEF_COLS) {
@@ -120,10 +118,16 @@ function runAStar() {
         let path = AStar.resolve(board, begin, end);
         if (path.length == 0) alert("No se ha llegado a una solución");
         else {
-            path.forEach((node, index) => {
-                if (index < path.length - 1)
+            let i = 0;
+            let timerId = setInterval(() => {
+                let node = path[i];
+                if (i < path.length - 1){
                     board[node.x][node.y].element = PATH;
-            });
+                }
+                i++;   
+            }, 200);
+
+            setTimeout(() => clearInterval(timerId), 200 * path.length - 1);
         }
     }
 }
