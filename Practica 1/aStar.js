@@ -4,54 +4,57 @@ class AStar {
         let closedList = [];
 
         while (openList.length > 0) {
-            let lowestFXNode = AStar.lowestF(openList);
-            if (AStar.equalNodes(lowestFXNode, end)) {
-                return AStar.buildPath(lowestFXNode);
+            let currentNode = AStar.lowestF(openList);
+
+            if (AStar.equalNodes(currentNode, end)) {
+                return AStar.buildPath(currentNode);
             }
 
-            openList.splice(openList.indexOf(lowestFXNode), 1);
-            closedList.push(lowestFXNode);
+            openList.splice(openList.indexOf(currentNode), 1);
+            closedList.push(currentNode);
 
-            let neighbours = AStar.getNeighbours(board, lowestFXNode);
-            for (let i = 0; i < neighbours.length; i++) {
-                let index = closedList.indexOf(neighbours[i]);
-                if (index == -1 && neighbours[i].element != OBSTACLE) {
-                    let gScore = lowestFXNode.g + (AStar.isDiagonalNode(neighbours[i], lowestFXNode) ? Math.sqrt(2) : 1);
+            AStar.getNeighbours(board, currentNode)
+            .forEach(neighbour => {
+                const isInOpenList = openList.indexOf(neighbour) != -1;
+                const isInClosedList = closedList.indexOf(neighbour) != -1;
+
+                if (!isInClosedList && neighbour.element != OBSTACLE) {
+                    let gScore = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
                     let gScoreIsBest = false;
 
-                    if (openList.indexOf(neighbours[i]) == -1) {
+                    if (!isInOpenList) {
                         gScoreIsBest = true;
-                        neighbours[i].h = AStar.heuristic(neighbours[i], end);
-                        openList.push(neighbours[i]);
+                        neighbour.h = AStar.heuristic(neighbour, end);
+                        openList.push(neighbour);
                     }
-                    else if(openList.indexOf(neighbours[i]) != -1) {
-                        let gAux = lowestFXNode.g + (AStar.isDiagonalNode(neighbours[i], lowestFXNode) ? Math.sqrt(2) : 1);
-                        let hAux = AStar.heuristic(neighbours[i], end);
-                        let fAux = gAux + hAux;
-                        if(fAux < neighbours[i].f) {
-                            neighbours[i].f = fAux;
-                            neighbours[i].h = hAux;
-                            neighbours[i].g = gAux;
-                            neighbours[i].parent = lowestFXNode;
+                    else {
+                        let nodeAux = new Cell(neighbour.x, neighbour.y, neighbour.w);
+                        nodeAux.g = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
+                        nodeAux.h = AStar.heuristic(neighbour, end);
+                        nodeAux.f = nodeAux.g + nodeAux.h;
+                        if(nodeAux.f < neighbour.f) {
+                            neighbour = nodeAux;
+                            neighbour.parent = currentNode;
                         }
                     }
-                    else if (gScore < neighbours[i].g) {
+                    
+                    if (gScore < neighbour.g) {
                         gScoreIsBest = true;
                     }
 
                     if (gScoreIsBest) {
-                        neighbours[i].parent = lowestFXNode;
-                        neighbours[i].g = gScore;
-                        neighbours[i].f = neighbours[i].g + neighbours[i].f;
+                        neighbour.parent = currentNode;
+                        neighbour.g = gScore;
+                        neighbour.f = neighbour.g + neighbour.f;
                     }
                 }
-            }
+            });
         }
 
         return [];
     }
 
-    static isDiagonalNode(nodeA, nodeB) {
+    static isDiagonalNeighbour(nodeA, nodeB) {
         return nodeA.x != nodeB.x && nodeA.y != nodeB.y;
     }
 
@@ -86,13 +89,13 @@ class AStar {
 
         if (board[x - 1] && board[x - 1][y]) {
             ret.push(board[x - 1][y]);
-            if (board[x - 1] && board[x - 1][y + 1]) ret.push(board[x - 1][y + 1]);
-            if (board[x - 1] && board[x - 1][y - 1]) ret.push(board[x - 1][y - 1]);
+            if (board[x - 1][y + 1]) ret.push(board[x - 1][y + 1]);
+            if (board[x - 1][y - 1]) ret.push(board[x - 1][y - 1]);
         }
         if (board[x + 1] && board[x + 1][y]) {
             ret.push(board[x + 1][y]);
-            if (board[x + 1] && board[x + 1][y + 1]) ret.push(board[x + 1][y + 1]);
-            if (board[x + 1] && board[x + 1][y - 1]) ret.push(board[x + 1][y - 1]);
+            if (board[x + 1][y + 1]) ret.push(board[x + 1][y + 1]);
+            if (board[x + 1][y - 1]) ret.push(board[x + 1][y - 1]);
         }
         if (board[x][y - 1] && board[x][y - 1]) {
             ret.push(board[x][y - 1]);
@@ -130,15 +133,19 @@ class AStar {
         return errorsList;
     }
 
-    static findElement(board, elementToFind) {
+    static findBeginAndEnd(board) {
+        let ret = {}
         for (let i = 0; i < board.length; i++) {
             for (let j = 0; j < board[0].length; j++) {
-                if (board[i][j].element == elementToFind) {
-                    return board[i][j];
+                if (board[i][j].element == BEGIN) {
+                    ret.begin = board[i][j];
+                }
+                else if(board[i][j].element == END) {
+                    ret.end = board[i][j];
                 }
             }
         }
 
-        return false;
+        return ret;
     }
 }

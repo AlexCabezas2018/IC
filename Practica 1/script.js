@@ -1,6 +1,7 @@
 let board;
 let rowSlider;
 let columnSlider;
+var canDraw;
 
 let docElemsRow;
 let docElemsCols;
@@ -29,6 +30,8 @@ function setup() {
     rowSlider.parent('options-section');
     columnSlider.parent('options-section');
 
+    canDraw = true;
+
     updateDocElems();
 }
 
@@ -39,7 +42,7 @@ function draw() {
         }
     }
 
-    if (mouseIsPressed) drawOnBoard();
+    if (mouseIsPressed && canDraw) drawOnBoard();
 
     updateDocElems()
 }
@@ -96,13 +99,15 @@ function isMouseInTheBoard() {
 
 // Funciones llamadas desde el html
 function changeSize() {
-    setupCanvas(columnSlider.value(), rowSlider.value());
+    if(canDraw)  
+        setupCanvas(columnSlider.value(), rowSlider.value());
 }
 
 function updateCurrentElement(element) {
     currentElement = element;
 }
 
+//TODO: If the board is already solved, delete the path elements and re run algorithm
 function runAStar() {
     let errors = AStar.validate(board);
     if (errors.length > 0) {
@@ -112,8 +117,8 @@ function runAStar() {
     }
     else {
         console.log("Validaciones hechas. Comenzamos A*Star");
-        let begin = AStar.findElement(board, BEGIN);
-        let end = AStar.findElement(board, END);
+        canDraw = false;
+        let { begin, end } = AStar.findBeginAndEnd(board);
 
         let path = AStar.resolve(board, begin, end);
         if (path.length == 0) alert("No se ha llegado a una solución");
@@ -127,7 +132,11 @@ function runAStar() {
                 i++;   
             }, 200);
 
-            setTimeout(() => clearInterval(timerId), 200 * path.length - 1);
+            setTimeout(() => {
+                canDraw = true;
+                clearInterval(timerId);
+                alert("A* has finished!");
+            }, 200 * path.length - 1);
         }
     }
 }
