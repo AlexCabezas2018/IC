@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 footer {
@@ -84,17 +85,28 @@ span {
     text-decoration: none;
     color: white;
     text-align: center;
-    padding: 1em;
     margin: 0.3em;
-    width: 10em;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.option-button:focus {
+    border: 1px solid black;
 }
 
 #begin-button {
     background-color: #00ff00;
 }
 
+#begin-button:hover, #begin-button:focus {
+    background-color: #00d800;
+}
+
 #end-button {
     background-color: #0000ff;
+}
+
+#end-button:hover, #end-button:focus {
+    background-color: #2e2eff;
 }
 
 #clear-button {
@@ -102,10 +114,23 @@ span {
     color: black;
 }
 
+#clear-button:hover, #clear-button:focus {
+    background-color: #8b8b8b;
+    color: black;
+}
+
 #obstacle-button {
     background-color: #ff0000;
 }
 
+#obstacle-button:hover, #obstacle-button:focus {
+    background-color: #b30000;
+}
+
 #penalty-button {
     background-color: #ffb700;
+}
+
+#penalty-button:hover, #penalty-button:hover {
+    background-color: #c48c00;
 }
