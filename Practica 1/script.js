@@ -79,6 +79,7 @@ function drawOnBoard() {
     let { i, j } = getCoordinatesFromMouseCoordinates();
     if (i == undefined || j == undefined) return;
     if (currentElement) {
+        clearPath();
         board[i][j].element = currentElement;
     }
 }
@@ -99,7 +100,7 @@ function isMouseInTheBoard() {
 
 // Funciones llamadas desde el html
 function changeSize() {
-    if(canDraw)  
+    if (canDraw)
         setupCanvas(columnSlider.value(), rowSlider.value());
 }
 
@@ -107,8 +108,9 @@ function updateCurrentElement(element) {
     currentElement = element;
 }
 
-//TODO: If the board is already solved, delete the path elements and re run algorithm
 function runAStar() {
+    clearPath();
+    if (!canDraw) return;
     let errors = AStar.validate(board);
     if (errors.length > 0) {
         let errorMessage = "";
@@ -117,26 +119,45 @@ function runAStar() {
     }
     else {
         console.log("Validaciones hechas. Comenzamos A*Star");
-        canDraw = false;
         let { begin, end } = AStar.findBeginAndEnd(board);
 
+        console.log({ begin, end })
         let path = AStar.resolve(board, begin, end);
         if (path.length == 0) alert("No se ha llegado a una solución");
         else {
+            canDraw = false;
             let i = 0;
             let timerId = setInterval(() => {
                 let node = path[i];
-                if (i < path.length - 1){
+                if (i < path.length - 1) {
                     board[node.x][node.y].element = PATH;
                 }
-                i++;   
+                i++;
             }, 200);
 
             setTimeout(() => {
                 canDraw = true;
                 clearInterval(timerId);
                 alert("A* has finished!");
+                restartboard();
             }, 200 * path.length - 1);
+        }
+    }
+}
+
+function clearPath() {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[0].length; j++) {
+            if (board[i][j].element == PATH)
+                board[i][j].element = NOTHING;
+        }
+    }
+}
+
+function restartboard() {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[0].length; j++) {
+            board[i][j].restart();
         }
     }
 }

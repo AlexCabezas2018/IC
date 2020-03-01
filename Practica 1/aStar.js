@@ -14,41 +14,41 @@ class AStar {
             closedList.push(currentNode);
 
             AStar.getNeighbours(board, currentNode)
-            .forEach(neighbour => {
-                const isInOpenList = openList.indexOf(neighbour) != -1;
-                const isInClosedList = closedList.indexOf(neighbour) != -1;
+                .forEach(neighbour => {
+                    const isInOpenList = openList.indexOf(neighbour) != -1;
+                    const isInClosedList = closedList.indexOf(neighbour) != -1;
 
-                if (!isInClosedList && neighbour.element != OBSTACLE) {
-                    let gScore = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
-                    let gScoreIsBest = false;
+                    if (!isInClosedList && neighbour.element != OBSTACLE) {
+                        let gScore = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
+                        let gScoreIsBest = false;
 
-                    if (!isInOpenList) {
-                        gScoreIsBest = true;
-                        neighbour.h = AStar.heuristic(neighbour, end);
-                        openList.push(neighbour);
-                    }
-                    else {
-                        let nodeAux = new Cell(neighbour.x, neighbour.y, neighbour.w);
-                        nodeAux.g = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
-                        nodeAux.h = AStar.heuristic(neighbour, end);
-                        nodeAux.f = nodeAux.g + nodeAux.h;
-                        if(nodeAux.f < neighbour.f) {
-                            neighbour = nodeAux;
+                        if (!isInOpenList) {
+                            gScoreIsBest = true;
+                            neighbour.h = AStar.heuristic(neighbour, end);
+                            openList.push(neighbour);
+                        }
+                        else {
+                            let nodeAux = new Cell(neighbour.x, neighbour.y, neighbour.w);
+                            nodeAux.g = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
+                            nodeAux.h = AStar.heuristic(neighbour, end);
+                            nodeAux.f = nodeAux.g + nodeAux.h;
+                            if (nodeAux.f < neighbour.f) {
+                                neighbour = nodeAux;
+                                neighbour.parent = currentNode;
+                            }
+                        }
+
+                        if (gScore < neighbour.g) {
+                            gScoreIsBest = true;
+                        }
+
+                        if (gScoreIsBest) {
                             neighbour.parent = currentNode;
+                            neighbour.g = gScore;
+                            neighbour.f = neighbour.g + neighbour.f;
                         }
                     }
-                    
-                    if (gScore < neighbour.g) {
-                        gScoreIsBest = true;
-                    }
-
-                    if (gScoreIsBest) {
-                        neighbour.parent = currentNode;
-                        neighbour.g = gScore;
-                        neighbour.f = neighbour.g + neighbour.f;
-                    }
-                }
-            });
+                });
         }
 
         return [];
@@ -140,7 +140,7 @@ class AStar {
                 if (board[i][j].element == BEGIN) {
                     ret.begin = board[i][j];
                 }
-                else if(board[i][j].element == END) {
+                else if (board[i][j].element == END) {
                     ret.end = board[i][j];
                 }
             }
