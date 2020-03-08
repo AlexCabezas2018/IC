@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+    <script src="./library/p5.js"></script>
     <script src="cell.js"></script>
     <script src="aStar.js"></script>
     <script src="script.js"></script>
@@ -30,13 +30,17 @@
             <button onclick="changeSize()">Set size / Clear board</button>
             <div class="options-buttons">
                 <div class='buttons-row'>
-                    <button class="option-button" id="begin-button" onclick="updateCurrentElement(BEGIN)">Inicio</button>
+                    <button class="option-button" id="begin-button"
+                        onclick="updateCurrentElement(BEGIN)">Inicio</button>
                     <button class="option-button" id="end-button" onclick="updateCurrentElement(END)">Final</button>
                 </div>
-                <button class="option-button" id="clear-button" onclick="updateCurrentElement(NOTHING)">CLEAR CELL</button>
+                <button class="option-button" id="clear-button" onclick="updateCurrentElement(NOTHING)">CLEAR
+                    CELL</button>
                 <div class="buttons-row">
-                    <button class="option-button" id="obstacle-button" onclick="updateCurrentElement(OBSTACLE)">Obstáculo</button>
-                    <button class="option-button" id="penalty-button" onclick="updateCurrentElement(PENALIZATION)">Penalización</button>
+                    <button class="option-button" id="obstacle-button"
+                        onclick="updateCurrentElement(OBSTACLE)">Obstáculo</button>
+                    <button class="option-button" id="penalty-button"
+                        onclick="updateCurrentElement(PENALIZATION)">Penalización</button>
                 </div>
             </div>
             <button id='run-button' onclick="runAStar()">RUN</button>
