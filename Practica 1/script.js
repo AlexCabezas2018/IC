@@ -11,6 +11,9 @@ const DEF_ROWS = 10;
 const DEF_COLS = 10;
 const DEF_SIZE = 40;
 
+// El coste de penalización de pasar por esa celda
+const DEF_PENALIZATION = 10;
+
 // Elementos (los representamos con colores)
 const NOTHING = '#ffffff';
 const BEGIN = '#00ff00';
@@ -81,6 +84,9 @@ function drawOnBoard() {
     if (currentElement) {
         clearPath();
         board[i][j].element = currentElement;
+        if (currentElement == PENALIZATION)
+            board[i][j].penalization = DEF_PENALIZATION;
+        else board[i][j].penalization = 0;
     }
 }
 
@@ -120,9 +126,9 @@ function runAStar() {
     else {
         console.log("Validaciones hechas. Comenzamos A*Star");
         let { begin, end } = AStar.findBeginAndEnd(board);
-
-        console.log({ begin, end })
         let path = AStar.resolve(board, begin, end);
+
+        console.log("El camino encontrado es el siguiente:", path)
         if (path.length == 0) alert("No se ha llegado a una solución");
         else {
             canDraw = false;
@@ -138,7 +144,7 @@ function runAStar() {
             setTimeout(() => {
                 canDraw = true;
                 clearInterval(timerId);
-                alert("A* has finished!");
+                alert("El algoritmo ha terminado");
                 restartboard();
             }, 200 * path.length - 1);
         }

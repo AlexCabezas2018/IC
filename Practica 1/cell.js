@@ -14,6 +14,8 @@ class Cell {
         this.g = 0;
         this.h = 0;
         this.parent = undefined;
+        if (this.element != PENALIZATION)
+            this.penalization = 0;
     }
 
     draw() {

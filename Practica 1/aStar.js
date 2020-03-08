@@ -19,7 +19,7 @@ class AStar {
                     const isInClosedList = closedList.indexOf(neighbour) != -1;
 
                     if (!isInClosedList && neighbour.element != OBSTACLE) {
-                        let gScore = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
+                        let gScore = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1) + currentNode.penalization;
                         let gScoreIsBest = false;
 
                         if (!isInOpenList) {
@@ -29,7 +29,7 @@ class AStar {
                         }
                         else {
                             let nodeAux = new Cell(neighbour.x, neighbour.y, neighbour.w);
-                            nodeAux.g = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1);
+                            nodeAux.g = currentNode.g + (AStar.isDiagonalNeighbour(neighbour, currentNode) ? Math.sqrt(2) : 1) + currentNode.penalization;
                             nodeAux.h = AStar.heuristic(neighbour, end);
                             nodeAux.f = nodeAux.g + nodeAux.h;
                             if (nodeAux.f < neighbour.f) {
@@ -45,7 +45,7 @@ class AStar {
                         if (gScoreIsBest) {
                             neighbour.parent = currentNode;
                             neighbour.g = gScore;
-                            neighbour.f = neighbour.g + neighbour.f;
+                            neighbour.f = neighbour.g + neighbour.f + neighbour.penalization;
                         }
                     }
                 });
