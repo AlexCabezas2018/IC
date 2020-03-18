@@ -12,7 +12,7 @@ const DEF_COLS = 10;
 const DEF_SIZE = 40;
 
 // El coste de penalización de pasar por esa celda
-const DEF_PENALIZATION = 10;
+const DEF_PENALIZATION = 1;
 
 // Elementos (los representamos con colores)
 const NOTHING = '#ffffff';
