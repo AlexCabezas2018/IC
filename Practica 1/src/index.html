@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./library/p5.js"></script>
+    <script src="cell.js"></script>
+    <script src="aStar.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Algoritmo A*</title>
+</head>
+
+<body>
+    <header class="section">
+        <h3>Algoritmo A*</h3>
+    </header>
+    <div class="main-content">
+        <div id="canvas-board">
+
+        </div>
+        <div class="options">
+            <h2>Size</h2>
+            <div id='options-section'></div>
+            <div id='options-size'>
+                <span id='rows'></span> X <span id='columns'></span>
+            </div>
+            <button onclick="changeSize()">Set size / Clear board</button>
+            <div class="options-buttons">
+                <div class='buttons-row'>
+                    <button class="option-button" id="begin-button"
+                        onclick="updateCurrentElement(BEGIN)">Inicio</button>
+                    <button class="option-button" id="end-button" onclick="updateCurrentElement(END)">Final</button>
+                </div>
+                <button class="option-button" id="clear-button" onclick="updateCurrentElement(NOTHING)">CLEAR
+                    CELL</button>
+                <div class="buttons-row">
+                    <button class="option-button" id="obstacle-button"
+                        onclick="updateCurrentElement(OBSTACLE)">Obstáculo</button>
+                    <button class="option-button" id="penalty-button"
+                        onclick="updateCurrentElement(PENALIZATION)">Penalización</button>
+                </div>
+            </div>
+            <button id='run-button' onclick="runAStar()">RUN</button>
+        </div>
+
+
+    </div>
+
+    <footer class="section">
+        <h3>Alejandro Cabezas Garríguez - 4ºE</h3>
+    </footer>
+
+</body>
+
+</html>
