@@ -1,7 +1,8 @@
 let board;
 let rowSlider;
 let columnSlider;
-var canDraw;
+let canDraw;
+let boardAlreadysolved;
 
 let docElemsRow;
 let docElemsCols;
@@ -31,6 +32,7 @@ function setup() {
     columnSlider.parent('options-section');
 
     canDraw = true;
+    boardAlreadysolved = false;
 
     updateDocElems();
 }
