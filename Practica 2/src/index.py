@@ -1,4 +1,20 @@
+import math
+
 DEFAULT_PATH = "files/"
+
+def ID3(attributes, examples, target_attribute):
+    return "WIP - Test"
+
+
+def merit(p, n, r):
+    total = 0
+    for i in range(len(r)):
+        total += r[i] * info(p[i], n[i])
+    return total
+
+
+def info(x, y):
+    return -(x * math.log2(x)) - (y * math.log2(y))
 
 def readFile(filename):
     """ Lee el contenido de un archivo (ubicado en la ruta files/filename).
@@ -11,10 +27,6 @@ def readFile(filename):
         return result[0]
 
     return result
-
-def ID3(attributes, examples):
-    return "WIP - Test"
-
 
 attributes = readFile("AtributosJuego.txt")
 examples = readFile("Juego.txt")
