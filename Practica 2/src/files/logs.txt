@@ -1,0 +1,39 @@
+========================
+Inicio del algoritmo
+Atributo: TiempoExterior, Merito: 0.6935361388961918
+Atributo: Temperatura, Merito: 0.9110633930116763
+Atributo: Humedad, Merito: 0.7884504573082896
+Atributo: Viento, Merito: 0.8921589282623617
+
+El mejor atributo seleccionado es: TiempoExterior
+Evaluaremos el atributo TiempoExterior con los valores ['soleado', 'nublado', 'lluvioso']
+========================
+Estamos evaluando el atributo TiempoExterior con el valor soleado
+
+Atributo: Temperatura, Merito: 0.4
+Atributo: Humedad, Merito: 0.0
+Atributo: Viento, Merito: 0.9509775004326937
+
+El mejor atributo seleccionado es: Humedad
+Evaluaremos el atributo Humedad con los valores ['alta', 'normal']
+========================
+El atributo Humedad con el valor alta ha dado resultado negativo
+========================
+El atributo Humedad con el valor normal ha dado resultado positivo
+========================
+El atributo TiempoExterior con el valor nublado ha dado resultado positivo
+========================
+Estamos evaluando el atributo TiempoExterior con el valor lluvioso
+
+Atributo: Temperatura, Merito: 0.9509775004326937
+Atributo: Humedad, Merito: 0.9509775004326937
+Atributo: Viento, Merito: 0.0
+
+El mejor atributo seleccionado es: Viento
+Evaluaremos el atributo Viento con los valores ['falso', 'verdad']
+========================
+El atributo Viento con el valor falso ha dado resultado positivo
+========================
+El atributo Viento con el valor verdad ha dado resultado negativo
+Resultado final (Explicacion en la memoria):
+{'attribute': 'TiempoExterior', 'value': None, 'children': [{'attribute': 'TiempoExterior', 'value': 'soleado', 'children': [{'attribute': 'Humedad', 'value': 'alta', 'final_value': 'no'}, {'attribute': 'Humedad', 'value': 'normal', 'final_value': 'yes'}]}, {'attribute': 'TiempoExterior', 'value': 'nublado', 'final_value': 'yes'}, {'attribute': 'TiempoExterior', 'value': 'lluvioso', 'children': [{'attribute': 'Viento', 'value': 'falso', 'final_value': 'yes'}, {'attribute': 'Viento', 'value': 'verdad', 'final_value': 'no'}]}]}
