@@ -22,6 +22,10 @@ def processData(data):
 
     return processedData
     
+def processSample(sample):
+    splittedItem = sample.split(',')
+    return transform_to_float(splittedItem[: len(splittedItem) - 1])
+
 # Devuelve el número de clases que tiene un conjunto de datos
 def getClasses(data):
     classes = []
@@ -40,9 +44,20 @@ def filterByClass(data, className):
     for item in data:
         splittedItem = item.split(',')
         if splittedItem[-1] == className:
-            values.append(splittedItem[: len(splittedItem) - 1])
+            values.append(transform_to_float(splittedItem[: len(splittedItem) - 1]))
 
     return values
 
+# Devuelve una muestra convertida en floats, en lugar de strings
+def transform_to_float(sample):
+    float_sample = []
+    for value in sample:
+        float_sample.append(float(value))
+
+    return float_sample
+
 def get_data_from_file(file_name):
     return processData(readFile(file_name))
+
+def get_sample_from_file(file_name):
+    return processSample(readFile(file_name)[0])
