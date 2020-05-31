@@ -34,6 +34,7 @@ def bayes(data, sample_to_guess):
 
         return prediction
 
+    print("Analizando la muestra con el algoritmo de bayes")
     bayes_data = {}
     for className in data:
         mean = calculate_mean(className)
@@ -43,8 +44,14 @@ def bayes(data, sample_to_guess):
         second_term = np.transpose(sample_minus_mean)
 
         bayes_data[className] = np.matmul(sample_minus_mean, second_term)
-        
+    
+    print("Distancias de la muestra: ")
+    for val in bayes_data:
+        print("\t- Clase: {}, distancia: {}".format(val, bayes_data[val][0][0]))
+
     prediction = get_min_distance(bayes_data)
+    print("La predicción (distancia mínima) para la muestra es {}".format(prediction))
+
     return prediction
 
 
