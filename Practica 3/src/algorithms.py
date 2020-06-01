@@ -17,7 +17,7 @@ def bayes(data, sample_to_guess):
         samples = data[className]
         total = 0
         for sample in samples:
-            sample_minus_mean = [np.array(sample) - mean]
+            sample_minus_mean = np.array(sample) - mean
             n_term = np.matmul(sample_minus_mean, np.transpose(sample_minus_mean))
             total += n_term
             
@@ -28,9 +28,9 @@ def bayes(data, sample_to_guess):
         prediction = ""
 
         for val in data:
-            if data[val][0][0] < min_value:
+            if data[val] < min_value:
                 prediction = val
-                min_value = data[val][0][0]
+                min_value = data[val]
 
         return prediction
 
@@ -40,20 +40,26 @@ def bayes(data, sample_to_guess):
         mean = calculate_mean(className)
         covariance = calculate_covariance(className, mean)
 
-        sample_minus_mean = [np.array(sample_to_guess) - mean]
-        second_term = np.transpose(sample_minus_mean)
+        sample_minus_mean = np.array(sample_to_guess) - mean
+        inverse_covariance = np.linalg.inv([[covariance]])[0][0]
+        second_term = np.dot(inverse_covariance, np.transpose(sample_minus_mean))
 
         bayes_data[className] = np.matmul(sample_minus_mean, second_term)
+
+        # d = (X - m) x C-1(X - m)t
     
     print("Distancias de la muestra: ")
     for val in bayes_data:
-        print("\t- Clase: {}, distancia: {}".format(val, bayes_data[val][0][0]))
+        print("\t- Clase: {}, distancia: {}".format(val, bayes_data[val]))
+        pass
 
     prediction = get_min_distance(bayes_data)
     print("La predicción (distancia mínima) para la muestra es {}".format(prediction))
 
     return prediction
 
+def k_means(data, sample_to_guess, tolerance=0.01, b=2):
+    pass
 
     
         
