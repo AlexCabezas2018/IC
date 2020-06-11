@@ -1,0 +1,24 @@
+BAYES (Para la muestra TestIris01.txt): 
+Distancias de la muestra:
+	- Clase: Iris-setosa, distancia: 0.07083803574709335
+	- Clase: Iris-versicolor, distancia: 17.440443683777332
+La prediccion (distancia minima) para la muestra es Iris-setosa
+
+
+
+BAYES (Para la muestra TestIris02.txt): 
+Distancias de la muestra:
+	- Clase: Iris-setosa, distancia: 56.009002388388744
+	- Clase: Iris-versicolor, distancia: 2.413856625860653
+La prediccion (distancia minima) para la muestra es Iris-versicolor
+
+
+
+BAYES (Para la muestra TestIris03.txt): 
+Distancias de la muestra:
+	- Clase: Iris-setosa, distancia: 0.011784467599275436
+	- Clase: Iris-versicolor, distancia: 16.589919128310328
+La prediccion (distancia minima) para la muestra es Iris-setosa
+
+
+
